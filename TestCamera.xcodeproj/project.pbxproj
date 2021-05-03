@@ -14,6 +14,7 @@
 		FABB2F40263EC06A009F6989 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABB2F3E263EC06A009F6989 /* LaunchScreen.storyboard */; };
 		FABB2F4B263ED348009F6989 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABB2F4A263ED348009F6989 /* AppCoordinator.swift */; };
 		FABB2F502640571D009F6989 /* ViewControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABB2F4F2640571D009F6989 /* ViewControllerPresenter.swift */; };
+		FABB2F5526405CCD009F6989 /* PulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABB2F5426405CCD009F6989 /* PulsatingButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		FABB2F41263EC06A009F6989 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FABB2F4A263ED348009F6989 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		FABB2F4F2640571D009F6989 /* ViewControllerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPresenter.swift; sourceTree = "<group>"; };
+		FABB2F5426405CCD009F6989 /* PulsatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsatingButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				FABB2F33263EC067009F6989 /* AppDelegate.swift */,
 				FABB2F35263EC067009F6989 /* SceneDelegate.swift */,
 				FABB2F37263EC067009F6989 /* ViewController.swift */,
+				FABB2F5426405CCD009F6989 /* PulsatingButton.swift */,
 				FABB2F4F2640571D009F6989 /* ViewControllerPresenter.swift */,
 				FABB2F4A263ED348009F6989 /* AppCoordinator.swift */,
 				FABB2F3C263EC06A009F6989 /* Assets.xcassets */,
@@ -142,6 +145,7 @@
 				FABB2F4B263ED348009F6989 /* AppCoordinator.swift in Sources */,
 				FABB2F38263EC067009F6989 /* ViewController.swift in Sources */,
 				FABB2F34263EC067009F6989 /* AppDelegate.swift in Sources */,
+				FABB2F5526405CCD009F6989 /* PulsatingButton.swift in Sources */,
 				FABB2F502640571D009F6989 /* ViewControllerPresenter.swift in Sources */,
 				FABB2F36263EC067009F6989 /* SceneDelegate.swift in Sources */,
 			);

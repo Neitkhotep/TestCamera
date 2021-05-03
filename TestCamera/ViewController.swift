@@ -79,8 +79,8 @@ class ViewController: UIViewController, ViewControllerOutput {
     private var movieFileOutput: AVCaptureMovieFileOutput?
     private var videoDeviceInput: AVCaptureDeviceInput?
     
-    private lazy var button: UIButton = {
-        let btn = UIButton()
+    private lazy var button: PulsatingButton = {
+        let btn = PulsatingButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .white
         btn.addTarget(self, action: #selector(tapped(sender:)), for: UIControl.Event.touchUpInside)
@@ -116,8 +116,10 @@ class ViewController: UIViewController, ViewControllerOutput {
         }
         
         if movieFileOutput!.isRecording {
+            button.stopPulsation()
             onFinish()
         } else {
+            button.startPulsatiion()
             onStartRecording()
         }
     }

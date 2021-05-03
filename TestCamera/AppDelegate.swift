@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  TestCamera
 //
-//  Created by MacBook on 02.05.2021.
+//  Created by Ksenia on 02.05.2021.
 //
 
 import UIKit

@@ -23,6 +23,10 @@ final class AppCoordinator {
     }
     
     func showMain() {
-     
+        let presenter = ViewControllerPresenter()
+        let vc = ViewController(presenter)
+        presenter.view = vc
+        navigationController.setViewControllers([vc], animated: false)
+        navigationController.isNavigationBarHidden = true
     }
 }

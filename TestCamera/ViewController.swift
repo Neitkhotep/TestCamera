@@ -57,7 +57,7 @@ private enum SessionSetupResult {
 class ViewController: UIViewController, ViewControllerOutput {
   
     lazy var onShowError: (String) -> () = { [weak self] message in
-      
+        self?.showError(message)
     }
     
     lazy var onShowActivityIndicator: (Bool) -> () = { [weak self] show in
@@ -67,7 +67,7 @@ class ViewController: UIViewController, ViewControllerOutput {
     }
     
     lazy var onShare: (URL) -> () = { [weak self] url in
-        
+        self?.share(url)
     }
 
     private let session = AVCaptureSession()
@@ -108,6 +108,39 @@ class ViewController: UIViewController, ViewControllerOutput {
         setupViews()
     }
     
+    @objc
+    func tapped(sender: Any) {
+        guard sessionSetupResult == .success else {
+            showError(sessionSetupResult.errorMessage)
+            return
+        }
+        
+        if movieFileOutput!.isRecording {
+            onFinish()
+        } else {
+            onStartRecording()
+        }
+    }
+    
+    func share(_ outputFileURL: URL) {
+          let videoURL = outputFileURL
+
+          let activityItems: [Any] = [videoURL, "Share video"]
+          let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+
+          activityController.popoverPresentationController?.sourceView = view
+          activityController.popoverPresentationController?.sourceRect = view.frame
+          activityController.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+            self?.presenter.cleanup(outputFileURL)
+    
+            guard let error = error else { return }
+            
+            self?.showError(error.localizedDescription)
+          }
+
+          self.present(activityController, animated: true, completion: nil)
+    }
+    
     private func checkAuthorization() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -125,22 +158,10 @@ class ViewController: UIViewController, ViewControllerOutput {
         }
     }
     
-    @objc
-    func tapped(sender: Any) {
-        guard sessionSetupResult == .success else {
-            showError(sessionSetupResult.errorMessage)
-            return
-        }
-        
-        if movieFileOutput!.isRecording {
-            onFinish()
-        } else {
-            onStartRecording()
-        }
-    }
-    
     private func onStartRecording() {
         
+        focus(with: .autoFocus, exposureMode: .autoExpose, whiteBalanceMode: .autoWhiteBalance)
+       
         let outputFileName = NSUUID().uuidString
         let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
         movieFileOutput?.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: presenter)
@@ -161,6 +182,37 @@ class ViewController: UIViewController, ViewControllerOutput {
   
     private func  onFinish() {
         movieFileOutput?.stopRecording()
+    }
+    
+    private func focus(with focusMode: AVCaptureDevice.FocusMode,
+                       exposureMode: AVCaptureDevice.ExposureMode,
+                       whiteBalanceMode: AVCaptureDevice.WhiteBalanceMode) {
+        
+        DispatchQueue.global().async {
+            guard let device = self.videoDeviceInput?.device else { return }
+            
+            do {
+                try device.lockForConfiguration()
+                
+                if device.isFocusModeSupported(focusMode) {
+                    device.focusMode = focusMode
+                }
+                
+                if device.isWhiteBalanceModeSupported(whiteBalanceMode)  {
+                    device.whiteBalanceMode = whiteBalanceMode
+                }
+                
+                if device.isExposureModeSupported(exposureMode) {
+                    device.exposureMode = exposureMode
+                }
+                
+                device.activeMaxExposureDuration = CMTime(value: 1, timescale: 100)
+                
+                device.unlockForConfiguration()
+            } catch {
+                print("Could not lock device for configuration: \(error)")
+            }
+        }
     }
     
     private func setupViews() {

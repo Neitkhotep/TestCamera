@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow camera usage</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Please allow access to photos </string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

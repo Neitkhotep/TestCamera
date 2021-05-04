@@ -144,19 +144,27 @@ class ViewController: UIViewController, ViewControllerOutput {
     }
     
     private func checkAuthorization() {
+        func onAuthorizationFailed() {
+            DispatchQueue.main.async {
+                self.sessionSetupResult = .notAuthorized
+                self.showError(self.sessionSetupResult.errorMessage)
+            }
+        }
+        
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             setupSession()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { granted in
                 if !granted {
-                    self.sessionSetupResult = .notAuthorized
+                    onAuthorizationFailed()
+                    return
                 }
                 self.setupSession()
             })
             
         default:
-            sessionSetupResult = .notAuthorized
+            onAuthorizationFailed()
         }
     }
     
